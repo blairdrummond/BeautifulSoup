@@ -1,21 +1,5 @@
-http://www.urbanspoon.com/r/250/1441400/restaurant/University-of-Ottawa/Govindas-Vegetarian-Buffet-Ottawa
-Traceback (most recent call last):
-  File "crawler.py", line 142, in grabPage
-    website   = soup.find('div',  { "data-ga-action" : "resto-website"           }).a['href']
-AttributeError: 'NoneType' object has no attribute 'a'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "crawler.py", line 146, in grabPage
-    menusite      = soup.find('a',    { "data-ga-action" : "menu-urbanspoon"         })['href']
-TypeError: 'NoneType' object is not subscriptable
-
-
-http://www.urbanspoon.com/r/250/1578631/restaurant/Wellington-West/Art-Is-in-Bakery-Ottawa
-Traceback (most recent call last):
-  File "crawler.py", line 197, in grabPage
-    for menuitem in menulist:
-UnboundLocalError: local variable 'menulist' referenced before assignment
-
-
+http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
+http://www.urbanspoon.com/r/250/1735657/restaurant/Centretown-Downtown/El-Camino-Ottawa
+http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
+http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
+http://www.urbanspoon.com/r/250/1735657/restaurant/Centretown-Downtown/El-Camino-Ottawa
