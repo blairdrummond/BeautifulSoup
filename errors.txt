@@ -1,5 +1,2 @@
-http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
-http://www.urbanspoon.com/r/250/1735657/restaurant/Centretown-Downtown/El-Camino-Ottawa
-http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
-http://www.urbanspoon.com/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
-http://www.urbanspoon.com/r/250/1735657/restaurant/Centretown-Downtown/El-Camino-Ottawa
+/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa
+/r/250/1878615/restaurant/ByWard-Market-Lower-Town/Asian-Alley-Ottawa

@@ -31,7 +31,6 @@ reviewerData = set([])
 week   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] 
 
 months = { 
-    'January'   : '01', 
     'February'  : '02',
     'March'     : '03',
     'April'     : '04',
@@ -172,7 +171,7 @@ def grabPage(url):
 
     # Sometimes missing
 
-    try:    cost     = len(soup.find('span', { "class" : "price" }).text )
+    try:    cost     = 4 - len(soup.find('span', { "class" : "price-gray" }).text )
     except: cost     = NULL 
 
     try:    website  = soup.find('div',  { "data-ga-action" : "resto-website"           }).a['href']
@@ -228,6 +227,7 @@ def grabPage(url):
                         weeklyhours[4][1], 
                         weeklyhours[5][1], 
                         weeklyhours[6][1], 
+                        neighbourhood,
                         index           
                     ))
         
@@ -280,7 +280,7 @@ def grabReviewers():
 
         calcdrating = min( 5, max(1 , math.floor(math.log( max(numreviews, 1), 2) - 1)))
         
-        reviewerSet.insert(0,    (index, name.replace(' ','_')+'@foodie.ca', 'password', name, joind, 'reviewer', calcdrating ))
+        reviewerSet.insert(0,    (index, name.replace(' ','_')+'@foodie.ca', 'password', name, joind, 'reviewer', calcdrating, image ))
 
         revRating(index,  'http://www.urbanspoon.com' + e + '/comments' )
         index+=1
@@ -353,7 +353,7 @@ def grabCritics():
 
             try:
                 commenttext = tempTag.text
-                ratingSet.insert(0,    (index, date, NULL, NULL, NULL, NULL, revTitle, commenttext, restNum)       )
+                ratingSet.insert(0,    (index, date, NULL, NULL, NULL, NULL, revTitle, commenttext, restNum, NULL)       )
             except:
                 print( critic[0] + '\n' + revTitle + '\n' + str(tempTag) + '\n\n')
 

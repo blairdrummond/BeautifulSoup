@@ -1,0 +1,172 @@
+from bs4 import BeautifulSoup
+import urllib.parse, urllib.request, re, time, random, math, sys, traceback
+
+# NOTE THAT
+
+NULL = 'NULL'
+
+# In order to supplement the missing data, we have added data/ manipulated data to fill everything
+
+
+# Critics have the join date May 9, 1995
+# The rating from urban spoon is randomly turned into a split of 4 traits with that average
+# everyone has the password 'password'
+# there are no real email addresses in the system
+# critcs automatically have a rating of 5
+
+# Cache values in these lists then flush them once everything is done.
+restSet      = []
+locaSet      = []
+featSet      = []
+cuisSet      = []
+menuSet      = []
+reviewerSet  = []
+ratingSet    = []
+
+restKeys     = []
+criticData   = set([])
+reviewerData = set([])
+
+# Extract data from the hours tag on a restaurant
+week   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] 
+
+months = { 
+    'February'  : '02',
+    'March'     : '03',
+    'April'     : '04',
+    'May'       : '05',
+    'June'      : '06',
+    'July'      : '07',
+    'August'    : '08',
+    'September' : '09',
+    'October'   : '10',
+    'November'  : '11',
+    'December'  : '12'
+}
+
+numParse = re.compile('\d+(?=/restaurant)')
+urlParse = re.compile('(?<=http://).*?(?=/)')
+
+
+#############################################################################################
+#############################################################################################
+
+def pleaseSir(url):
+    i    = 0
+    done = False
+    while i < 10000 and not done:
+        try:
+            page  = urllib.request.urlopen( url )
+            soup  = BeautifulSoup(page)
+            done  = True # If it reaches here
+        except:
+            i += 1
+            print('might be stuck? ' + str(i),end='\n')
+
+    if not done:
+        with open('errors.txt','a') as f:
+            f.write(url)
+        soup = None
+
+    return soup
+
+#############################################################################################
+#############################################################################################
+
+def grabPage(url):
+    soup = pleaseSir(url)
+    if soup == None:
+        return
+    
+    # Grab a Whole bunch of stuff
+    index  =   int(soup.body['data-restaurant-id'])
+    name   =       soup.find('meta', { "property" : "og:title" })['content']
+
+    # Sometimes missing
+    try:    cost     = len(soup.find('span', { "class" : "price" }).text )
+    except: cost     = NULL 
+
+    restSet.insert(0, (index, cost))    
+
+    locationindex = len([ x for x in locaSet if x[-1] == index ])
+    reviewers = [ (locationindex, index, x['href']) for x in soup.find_all('a', {'itemprop' : 'reviewer'})]
+    
+    for e in reviewers:    
+        reviewerData.add(e)
+    # DONE
+
+    
+#############################################################################################
+#############################################################################################
+
+
+def grabReviewers():
+    index = len(ratingSet)
+
+    totalsize = len(reviewerData)
+    progress  = 0 
+
+    for e in reviewerData:
+        te = e
+        e = e[
+        sys.stdout.write("\rWorkng... " + str(int(round((progress*100)/float(totalsize)))) + "%")
+        sys.stdout.flush()
+        progress+=1
+
+        soup  = pleaseSir('http://www.urbanspoon.com' + e )
+
+        image = [ x.img['src'] for x in soup.find_all('a', { 'data-ga-action' : 'user-profile-page' }) if x.img != None][0]
+
+        numreviews  = int(re.search('\d+',  [li.text.replace('\n','') for li in soup.find_all('li') if li.a != None and li.a.text == 'Reviews' ][0]  ).group(0))
+
+        reviewerSet.insert(0,    (index, name.replace(' ','_')+'@foodie.ca', 'password', name, joind, 'reviewer', calcdrating ))
+
+        index+=1
+
+#############################################################################################
+#############################################################################################
+
+#############################################################################################
+#############################################################################################
+
+
+
+#############################################################################################
+#############################################################################################
+
+
+
+
+#############################################################################################
+#############################################################################################
+
+
+def run():
+    with open('sites.txt','r') as f:
+        sites = f.readlines()
+
+    progress = 0
+    total    = len(sites)
+    for url in sites:
+        
+        sys.stdout.write("\rWorking... " + str((progress*100)/total) + "%")
+        sys.stdout.flush()
+        progress+=1
+
+        grabPage('http://www.urbanspoon.com' + url )
+
+
+    print('reviewers')
+    grabReviewers()
+
+
+    for pair in zip(  ['costs.txt',  'ratersimage.txt'],  [ restSet,   reviewerSet  ]):
+        with open(pair[0],'w') as f:
+            f.write("\n".join([ str(x) for x in pair[1]]))
+
+
+####################################### SCRIPT ##############################################
+
+
+#initial()
+run()
